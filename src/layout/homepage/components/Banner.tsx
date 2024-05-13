@@ -6,7 +6,7 @@ function Banner() {
             <div className="container-fluid py-5 text-white d-flex justify-content-center align-items-center">
                 <div>
                     <h3 className="display-5 fw-bold">
-                        Unlock your mind, one page at a time.
+                        "Giải mã tâm hồn, từng trang một."
                     </h3>
                     <p className="">Ebook</p>
                     <button className="btn btn-primary btn-lg text-white">Khám phá sách tại ebook.vn</button>

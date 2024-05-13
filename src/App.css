@@ -114,3 +114,16 @@
 .bd-mode-toggle .dropdown-menu .active .bi {
   display: block !important;
 }
+
+/* CSS Panigation */
+.pagination-container {
+  display: flex;
+  justify-content: center; /* Căn giữa theo chiều ngang */
+  align-items: center; /* Căn giữa theo chiều dọc */
+  flex-wrap: wrap; /* Cho phép các phần tử con xuống dòng khi không đủ không gian */
+  cursor: pointer;
+}
+
+.pagination-container > * {
+  margin: 5px; /* Khoảng cách giữa các phần tử con */
+}

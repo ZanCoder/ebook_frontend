@@ -1,42 +1,54 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { getNewProduct } from "../../../api/ProductApi";
+import Product from "../../../models/Product";
+import CarouselItem from "./CarouselItem";
 
-function Carousel() {
+const Carousel: React.FC = () => {
+    const [listBooks, setListBooks] = useState<Product[]>([]);
+    const [loadingData, setLoadingData] = useState(true);
+    const [errorData, setErrorData] = useState(null);
+
+    useEffect(() => {
+        getNewProduct().then(
+            productNewData => {
+                setListBooks(productNewData);
+                setLoadingData(false);
+            }
+        ).catch(
+            error => {
+                setErrorData(error.message);
+            }
+        );
+    }, [])
+
+    if (loadingData) {
+        return (
+            <div>
+                <h1>Loading....!</h1>
+            </div>
+        );
+    }
+
+    if (errorData) {
+        return (
+            <div>
+                <h1>Error: {errorData}</h1>
+            </div>
+        );
+    }
+
     return (
         <div>
             <div id="carouselExampleCaptions" className="carousel slide">
                 <div className="carousel-inner">
                     <div className="carousel-item active">
-                        <div className="row align-items-center">
-                            <div className="col-5">
-                                <img src={('./../../../images/books/products/product-book1.png')} className="float-end" alt="img-banner" style={{width: '150px'}} />
-                            </div>
-                            <div className="col-5">
-                                <h5>First slide label</h5>
-                                <p>Some representative placeholder content for the first slide.</p>
-                            </div>
-                        </div>
+                        <CarouselItem key={0} product={listBooks[0]} />
                     </div>
                     <div className="carousel-item">
-                        <div className="row align-items-center">
-                            <div className="col-5">
-                                <img src={('./../../../images/books/products/product-book2.png')} className="float-end" alt="img-banner" style={{width: '150px'}} />
-                            </div>
-                            <div className="col-5">
-                                <h5>First slide label</h5>
-                                <p>Some representative placeholder content for the first slide.</p>
-                            </div>
-                        </div>
+                        <CarouselItem key={1} product={listBooks[1]} />
                     </div>
                     <div className="carousel-item">
-                        <div className="row align-items-center">
-                            <div className="col-5">
-                                <img src={('./../../../images/books/products/product-book3.png')} className="float-end" alt="img-banner" style={{width: '150px'}} />
-                            </div>
-                            <div className="col-5">
-                                <h5>First slide label</h5>
-                                <p>Some representative placeholder content for the first slide.</p>
-                            </div>
-                        </div>
+                        <CarouselItem key={2} product={listBooks[2]} />
                     </div>
                 </div>
                 <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
