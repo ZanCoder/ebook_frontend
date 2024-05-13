@@ -6,3 +6,5 @@ interface Book {
     price: number;
     imageUrl: string;
 }
+
+export default Book;
