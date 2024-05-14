@@ -41,3 +41,17 @@ export async function getNewProduct(): Promise<Product[]> {
 
     return getProduct(url);
 }
+
+export async function searchProduct(keyword: string, keywordSearchNavbar: string): Promise<Product[]> {
+    // Xác định endpoint
+    let url: string = 'http://localhost:8080/products?sort=id,desc&page=0&size=8';
+    if (keyword !== '') {
+        url = `http://localhost:8080/products/search/findByNameProductContaining?sort=id,desc&page=0&size=8&nameProduct=${keyword}`;
+    }
+
+    if (keywordSearchNavbar !== '') {
+        url = `http://localhost:8080/products/search/findByNameProductContaining?sort=id,desc&page=0&size=8&nameProduct=${keywordSearchNavbar}`;
+    }
+
+    return getProduct(url);
+}

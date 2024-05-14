@@ -1,6 +1,21 @@
-import React from "react";
+import React, { ChangeEvent, useState } from "react";
 
-function Navbar() {
+interface NavBarInterface {
+    keywordSearchNavbar: string;
+    setSearchNavbar: (keywordSearchNavbar: string) => void;
+}
+
+function Navbar( {keywordSearchNavbar, setSearchNavbar}: NavBarInterface) {
+    const [tempKeyword, setTempKeyword] = useState('');
+
+    const onSearchNavbarChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setTempKeyword(e.target.value);
+    }
+
+    const handleSearch = () => {
+        setSearchNavbar(tempKeyword);
+    }
+
     return (
         <nav className="navbar navbar-expand-lg bg-body-tertiary">
             <div className="container-fluid">
@@ -27,10 +42,10 @@ function Navbar() {
                             <a className="nav-link" aria-current="page" href="#">Liên hệ</a>
                         </li>
                     </ul>
-                    <form className="d-flex" role="search">
-                        <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                        <button className="btn btn-outline-success" type="submit">Search</button>
-                    </form>
+                    <div className="d-flex" role="search">
+                        <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" onChange={onSearchNavbarChange} value={tempKeyword} />
+                        <button className="btn btn-outline-success" type="button" onClick={handleSearch}>Search</button>
+                    </div>
                     <ul className="navbar-nav me-1">
                         <li className="nav-item">
                             <a className="nav-link" href="#"><i className="fas fa-shopping-cart"></i></a>

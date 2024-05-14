@@ -1,10 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import Product from "../models/Product";
 import ProductProps from "./components/ProductProps";
-import { getAllProducts } from "../api/ProductApi";
+import { getAllProducts, searchProduct } from "../api/ProductApi";
 import Pagination from "../layout/utils/Pagination";
 
-const ListProduct: React.FC = () => {
+interface ListProductInterface {
+    keyword: string;
+    setKeyword: (keyword: string) => void;
+
+    keywordSearchNavbar: string;
+}
+
+function ListProduct({ keyword, setKeyword, keywordSearchNavbar }: ListProductInterface) {
     const [listBooks, setListBooks] = useState<Product[]>([]);
     const [loadingData, setLoadingData] = useState(true);
     const [errorData, setErrorData] = useState(null);
@@ -12,17 +19,57 @@ const ListProduct: React.FC = () => {
     const [currentPage, setCurrentPage] = useState(1); // Trang hiện tại, mặc định là 1
 
     useEffect(() => {
-        getAllProducts().then(
-            productData => {
-                setListBooks(productData);
-                setLoadingData(false);
-            }
-        ).catch(
-            error => {
-                setErrorData(error.message);
-            }
-        );
-    }, []);
+        if (keyword === '') {
+            getAllProducts().then(
+                productData => {
+                    setListBooks(productData);
+                    setLoadingData(false);
+                }
+            ).catch(
+                error => {
+                    setErrorData(error.message);
+                }
+            );
+        } else {
+            searchProduct(keyword, keywordSearchNavbar).then(
+                productData => {
+                    setListBooks(productData);
+                    setLoadingData(false);
+                }
+            ).catch(
+                error => {
+                    setErrorData(error.message);
+                }
+            );
+        }
+    }, [keyword]);
+
+    // Search on Navbar
+    useEffect(() => {
+        if (keywordSearchNavbar === '') {
+            getAllProducts().then(
+                productData => {
+                    setListBooks(productData);
+                    setLoadingData(false);
+                }
+            ).catch(
+                error => {
+                    setErrorData(error.message);
+                }
+            );
+        } else {
+            searchProduct(keyword, keywordSearchNavbar).then(
+                productData => {
+                    setListBooks(productData);
+                    setLoadingData(false);
+                }
+            ).catch(
+                error => {
+                    setErrorData(error.message);
+                }
+            );
+        }
+    }, [keywordSearchNavbar]);
 
     // Tính toán totalPage
     const totalPage = Math.ceil(listBooks.length / itemsPerPage);
@@ -51,9 +98,33 @@ const ListProduct: React.FC = () => {
         );
     }
 
+    const onSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setKeyword(e.target.value);
+    }
+
+    if (currentItems.length === 0) {
+        return (
+            <div className="container">
+            <div className="row mt-4 mb-4">
+                <div className="input-group flex-nowrap">
+                    <span className="input-group-text" id="addon-wrapping"><i className="fa-solid fa-magnifying-glass"></i></span>
+                    <input type="text" className="form-control" placeholder="Search..." aria-label="search" aria-describedby="addon-wrapping" onChange={onSearchInputChange} value={keyword} />
+                </div>
+                <hr />
+                <h1>Không tìm thấy dữ theo yêu cầu.</h1>
+            </div>
+        </div>
+        );
+    }
+
     return (
         <div className="container">
             <div className="row mt-4 mb-4">
+                <div className="input-group flex-nowrap">
+                    <span className="input-group-text" id="addon-wrapping"><i className="fa-solid fa-magnifying-glass"></i></span>
+                    <input type="text" className="form-control" placeholder="Search..." aria-label="search" aria-describedby="addon-wrapping" onChange={onSearchInputChange} value={keyword} />
+                </div>
+
                 {currentItems.map((product) => (
                     <ProductProps key={product.id} product={product} />
                 ))}
