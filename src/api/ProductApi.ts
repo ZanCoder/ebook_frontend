@@ -42,16 +42,56 @@ export async function getNewProduct(): Promise<Product[]> {
     return getProduct(url);
 }
 
-export async function searchProduct(keyword: string, keywordSearchNavbar: string): Promise<Product[]> {
+export async function searchProduct(keyword: string, keywordSearchNavbar: string, id: number): Promise<Product[]> {
     // Xác định endpoint
     let url: string = 'http://localhost:8080/products?sort=id,desc&page=0&size=8';
     if (keyword !== '') {
         url = `http://localhost:8080/products/search/findByNameProductContaining?sort=id,desc&page=0&size=8&nameProduct=${keyword}`;
     }
 
-    if (keywordSearchNavbar !== '') {
+    if (keywordSearchNavbar !== '' && id === 0) {
         url = `http://localhost:8080/products/search/findByNameProductContaining?sort=id,desc&page=0&size=8&nameProduct=${keywordSearchNavbar}`;
+    } else if (keywordSearchNavbar === '' && id > 0) {
+        url = `http://localhost:8080/products/search/findByBrandList_id?sort=id,desc&page=0&size=8&id=${id}`;
+    } else if (keywordSearchNavbar !== '' && id > 0) {
+        url = `http://localhost:8080/products/search/findByNameProductContainingAndBrandList_id?sort=id,desc&page=0&size=8&id=${id}&nameProduct=${keywordSearchNavbar}`;
     }
 
     return getProduct(url);
+}
+
+export async function  getProductDetail(id: number): Promise<Product | null> {
+    const url = `http://localhost:8080/products/${id}`;
+
+    let result: Product;
+
+    try {
+        // Gọi phương thức request
+        const response = await fetch(url);
+
+        if (!response.ok) {
+            throw new Error('Error to connect API.')
+        }
+
+        const productData = await response.json();
+
+        if (productData) {
+            return {
+                id: productData.id,
+                nameProduct: productData.nameProduct,
+                descriptionProduct: productData.descriptionProduct,
+                creator: productData.creator,
+                ISBN: productData.ISBN,
+                quantity: productData.quantity,
+                priceProduct: productData.priceProduct,
+                fixedPrice: productData.fixedPrice,
+                average_rating: productData.average_rating
+            };
+        } else {
+            throw new Error('No data!')
+        }
+    } catch (error) {
+        console.error("Error" + error);
+        return null;
+    }
 }

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Product from "../../models/Product";
 import { getAllImageByProduct } from "../../api/ImageProductApi";
 import ImageProduct from "../../models/ImageProduct";
+import { Link } from "react-router-dom";
 
 interface ProductPropsInterface {
     product: Product;
@@ -51,9 +52,13 @@ const ProductProps: React.FC<ProductPropsInterface> = (props) => {
     return (
         <div className="col-md-3 mt-2">
             <div className="card">
-                <img src={dataImg} className="card-img-top" alt={props.product.nameProduct} style={{ height: '200px' }} />
+                <Link to={`/products/${props.product.id}`}>
+                    <img src={dataImg} className="card-img-top" alt={props.product.nameProduct} style={{ height: '200px' }} />
+                </Link>
                 <div className="card-body">
-                    <h5 className="card-title">{props.product.nameProduct}</h5>
+                    <Link to={`/products/${props.product.id}`} style={{textDecoration: 'none'}}>
+                        <h5 className="card-title">{props.product.nameProduct}</h5>
+                    </Link>
                     <p className="card-text">{props.product.descriptionProduct}</p>
                     <div className="price">
                         <span className="original-price">

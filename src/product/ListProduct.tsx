@@ -9,9 +9,12 @@ interface ListProductInterface {
     setKeyword: (keyword: string) => void;
 
     keywordSearchNavbar: string;
+
+    // Mã thể loại
+    id: number;
 }
 
-function ListProduct({ keyword, setKeyword, keywordSearchNavbar }: ListProductInterface) {
+function ListProduct({ keyword, setKeyword, keywordSearchNavbar, id }: ListProductInterface) {
     const [listBooks, setListBooks] = useState<Product[]>([]);
     const [loadingData, setLoadingData] = useState(true);
     const [errorData, setErrorData] = useState(null);
@@ -19,7 +22,7 @@ function ListProduct({ keyword, setKeyword, keywordSearchNavbar }: ListProductIn
     const [currentPage, setCurrentPage] = useState(1); // Trang hiện tại, mặc định là 1
 
     useEffect(() => {
-        if (keyword === '') {
+        if (keyword === '' && id === 0) {
             getAllProducts().then(
                 productData => {
                     setListBooks(productData);
@@ -31,7 +34,7 @@ function ListProduct({ keyword, setKeyword, keywordSearchNavbar }: ListProductIn
                 }
             );
         } else {
-            searchProduct(keyword, keywordSearchNavbar).then(
+            searchProduct(keyword, keywordSearchNavbar, id).then(
                 productData => {
                     setListBooks(productData);
                     setLoadingData(false);
@@ -42,11 +45,11 @@ function ListProduct({ keyword, setKeyword, keywordSearchNavbar }: ListProductIn
                 }
             );
         }
-    }, [keyword]);
+    }, [keyword, id]);
 
     // Search on Navbar
     useEffect(() => {
-        if (keywordSearchNavbar === '') {
+        if (keywordSearchNavbar === '' && id === 0) {
             getAllProducts().then(
                 productData => {
                     setListBooks(productData);
@@ -58,7 +61,7 @@ function ListProduct({ keyword, setKeyword, keywordSearchNavbar }: ListProductIn
                 }
             );
         } else {
-            searchProduct(keyword, keywordSearchNavbar).then(
+            searchProduct(keyword, keywordSearchNavbar, id).then(
                 productData => {
                     setListBooks(productData);
                     setLoadingData(false);
@@ -69,7 +72,7 @@ function ListProduct({ keyword, setKeyword, keywordSearchNavbar }: ListProductIn
                 }
             );
         }
-    }, [keywordSearchNavbar]);
+    }, [keywordSearchNavbar, id]);
 
     // Tính toán totalPage
     const totalPage = Math.ceil(listBooks.length / itemsPerPage);
