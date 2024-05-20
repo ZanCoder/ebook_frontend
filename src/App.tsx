@@ -7,6 +7,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import About from './layout/about/About';
 import Contact from './layout/contact/Contact';
 import ProductDetail from './product/ProductDetail';
+import Register from './user/Register';
 
 function App() {
   const [keywordSearchNavbar, setSearchNavbar] = useState('');
@@ -21,6 +22,7 @@ function App() {
           <Route path='/about' element={<About />} />
           <Route path='/contact' element={<Contact />} />
           <Route path='/products/:id' element={<ProductDetail />} />
+          <Route path='/register' element={<Register />} />
         </Routes>
         <Footer />
       </BrowserRouter>

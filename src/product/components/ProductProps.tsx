@@ -3,6 +3,8 @@ import Product from "../../models/Product";
 import { getAllImageByProduct } from "../../api/ImageProductApi";
 import ImageProduct from "../../models/ImageProduct";
 import { Link } from "react-router-dom";
+import renderRating from "../../layout/utils/Stars";
+import formatNumber from "../../layout/utils/FormatNumber";
 
 interface ProductPropsInterface {
     product: Product;
@@ -59,15 +61,15 @@ const ProductProps: React.FC<ProductPropsInterface> = (props) => {
                     <Link to={`/products/${props.product.id}`} style={{textDecoration: 'none'}}>
                         <h5 className="card-title">{props.product.nameProduct}</h5>
                     </Link>
-                    <p className="card-text">{props.product.descriptionProduct}</p>
-                    <div className="price">
-                        <span className="original-price">
-                            <del>{props.product.fixedPrice}</del>
-                        </span>
-                        <span className="discount-price">
-                            <strong>{props.product.priceProduct}</strong>
-                        </span>
-                    </div>
+                    <p className="card-text">{renderRating(props.product.average_rating ? props.product.average_rating : 0)}</p>
+                    <div className="price row">
+                                <span className="original-price col-6 text-end">
+                                    <del>Giá: {formatNumber(props.product.fixedPrice)} đ</del>
+                                </span>
+                                <span className="discount-price col-6 text-start">
+                                    <strong>Giá: {formatNumber(props.product.priceProduct)} đ</strong>
+                                </span>
+                            </div>
                     <div className="row mt-2" role="group">
                         <div className="col-6">
                             <a href="#" className="btn btn-secondary btn-block">
