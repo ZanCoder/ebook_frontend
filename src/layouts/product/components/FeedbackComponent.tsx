@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { getAllFeedbackByProduct } from "../../api/FeedbackApi";
-import Feedback from "../../models/Feedback";
+import { getAllFeedbackByProduct } from "../../../api/FeedbackApi";
+import Feedback from "../../../models/Feedback";
 import { Star, StarFill } from "react-bootstrap-icons";
-import renderRating from "../../layout/utils/Stars";
+import renderRating from "../../utils/Stars";
 
 interface FeedbackInterface {
     id: number;

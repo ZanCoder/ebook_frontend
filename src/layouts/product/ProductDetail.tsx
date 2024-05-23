@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import Product from "../models/Product";
-import { getProductDetail } from "../api/ProductApi";
+import Product from "../../models/Product";
+import { getProductDetail } from "../../api/ProductApi";
 import ImageProductComponent from "./components/ImageProductComponent";
 import FeedbackComponent from "./components/FeedbackComponent";
-import renderRating from "../layout/utils/Stars";
-import formatNumber from "../layout/utils/FormatNumber";
+import renderRating from "../utils/Stars";
+import formatNumber from "../utils/FormatNumber";
 import axios from "axios";
 
 const ProductDetail: React.FC = () => {

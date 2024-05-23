@@ -1,13 +1,18 @@
 import React, { useState } from 'react';
 import './App.css';
-import Navbar from './layout/header-footer/Navbar';
-import Footer from './layout/header-footer/Footer';
-import HomePage from './layout/homepage/HomePage';
+import Navbar from './layouts/header-footer/Navbar';
+import Footer from './layouts/header-footer/Footer';
+import HomePage from './layouts/homepage/HomePage';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import About from './layout/about/About';
-import Contact from './layout/contact/Contact';
-import ProductDetail from './product/ProductDetail';
-import Register from './user/Register';
+import About from './layouts/about/About';
+import Contact from './layouts/contact/Contact';
+import ProductDetail from './layouts/product/ProductDetail';
+import Register from './layouts/user/Register';
+import ActiveUser from './layouts/user/ActiveUser';
+import Login from './layouts/user/Login';
+import LoginSuccess from './layouts/user/LoginSuccess';
+import ProductForm from './layouts/admin/ProductForm';
+import ProductAdmin from './layouts/admin/ProductForm';
 
 function App() {
   const [keywordSearchNavbar, setSearchNavbar] = useState('');
@@ -23,6 +28,10 @@ function App() {
           <Route path='/contact' element={<Contact />} />
           <Route path='/products/:id' element={<ProductDetail />} />
           <Route path='/register' element={<Register />} />
+          <Route path='/active/:email/:codeActive' element={<ActiveUser />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/login-success' element={<LoginSuccess />} />
+          <Route path='/admin/product' element={<ProductAdmin />} />
         </Routes>
         <Footer />
       </BrowserRouter>

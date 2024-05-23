@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Banner from "./components/Banner";
 import Carousel from "./components/Carousel";
-import ListProduct from "../../product/ListProduct";
+import ListProduct from "../product/ListProduct";
 import { useParams } from "react-router-dom";
 
 interface HomePageInterface {

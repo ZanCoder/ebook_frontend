@@ -1,8 +1,8 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
-import Product from "../models/Product";
+import Product from "../../models/Product";
 import ProductProps from "./components/ProductProps";
-import { getAllProducts, searchProduct } from "../api/ProductApi";
-import Pagination from "../layout/utils/Pagination";
+import { getAllProducts, searchProduct } from "../../api/ProductApi";
+import Pagination from "../utils/Pagination";
 
 interface ListProductInterface {
     keyword: string;

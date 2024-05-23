@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import Product from "../../models/Product";
-import { getAllImageByProduct } from "../../api/ImageProductApi";
-import ImageProduct from "../../models/ImageProduct";
+import Product from "../../../models/Product";
+import { getAllImageByProduct } from "../../../api/ImageProductApi";
+import ImageProduct from "../../../models/ImageProduct";
 import { Link } from "react-router-dom";
-import renderRating from "../../layout/utils/Stars";
-import formatNumber from "../../layout/utils/FormatNumber";
+import renderRating from "../../utils/Stars";
+import formatNumber from "../../utils/FormatNumber";
 
 interface ProductPropsInterface {
     product: Product;

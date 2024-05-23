@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { HtmlHTMLAttributes, useState } from "react";
 
 function Register() {
     const [username, setUsername] = useState('');
@@ -6,6 +6,7 @@ function Register() {
     const [password, setPassword] = useState('');
     const [rePassword, setRePassword] = useState('');
     const [fullName, setFullName] = useState('');
+    const [avatar, setAvatar] = useState<File | null>(null);
 
     // Show password
     const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -40,6 +41,9 @@ function Register() {
 
         // Kiểm tra tất cả điều kiện
         if (isUsernameValid && isEmailValid && isPasswordValid && isRePasswordValid) {
+
+            const base64Avatar = avatar ? await getBase64(avatar) : null;
+
             try {
                 const url = 'http://localhost:8080/api/user/register';
                 
@@ -52,7 +56,10 @@ function Register() {
                         username: username,
                         password: password,
                         email: email,
-                        fullName: fullName
+                        fullName: fullName,
+                        active: 0,
+                        codeActive: "",
+                        avatar: base64Avatar
                     })
                 });
 
@@ -175,6 +182,24 @@ function Register() {
         return existsEmail(event.target.value);
     }
 
+    /////////////////////////////////////////////////////
+    // Convert file to base64
+    const getBase64 = (file: File): Promise<string | null> => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result ? (reader.result as string) : null);
+            reader.onerror = error => reject(error);
+        })
+    }
+
+    const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.files) {
+            const file = event.target.files[0];
+            setAvatar(file);
+        }
+    }
+
     return (
         <div className="container">
             <h1 className="mt-5 text-center">Đăng ký</h1>
@@ -221,6 +246,10 @@ function Register() {
                     <div className="mb-3">
                         <label htmlFor="fullName" className="form-label">Nhập Họ và Tên:</label>
                         <input id="fullName" type="text" className="form-control" onChange={(event) => setFullName(event.target.value) } value={fullName} />
+                    </div>
+                    <div className="mb-3">
+                        <label htmlFor="avatar" className="form-label">Avatar:</label>
+                        <input id="avatar" type="file" className="form-control" accept="images/*" onChange={handleAvatarChange} />
                     </div>
                     <div className="text-center">
                         <button type="submit" className="btn btn-primary">
