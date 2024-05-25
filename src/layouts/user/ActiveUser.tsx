@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 function ActiveUser() {
     const { email } = useParams();
@@ -35,7 +35,7 @@ function ActiveUser() {
         <div>
             <h1>Thông báo kích hoạt tài khoản:</h1>
             {active ? (
-                <p>Tài khoản của bạn đã được kích hoạt thành công!</p>
+                <p>Tài khoản của bạn đã được kích hoạt thành công, hãy bấm vào <Link to="/login">đây</Link> để đăng nhập!</p>
             ) : (
                 <p>{notification}</p>
             )}

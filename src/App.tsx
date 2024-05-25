@@ -11,8 +11,7 @@ import Register from './layouts/user/Register';
 import ActiveUser from './layouts/user/ActiveUser';
 import Login from './layouts/user/Login';
 import LoginSuccess from './layouts/user/LoginSuccess';
-import ProductForm from './layouts/admin/ProductForm';
-import ProductAdmin from './layouts/admin/ProductForm';
+import ProductAdmin from './layouts/admin/ProductTable';
 
 function App() {
   const [keywordSearchNavbar, setSearchNavbar] = useState('');

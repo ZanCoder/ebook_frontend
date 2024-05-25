@@ -3,7 +3,7 @@ class Product {
     nameProduct?: string; // syntax ?: có thể null
     descriptionProduct?: string;
     creator?: string;
-    ISBN?: string;
+    isbn?: string;
     quantity?: number;
     priceProduct?: number;
     fixedPrice?: number;
@@ -13,7 +13,7 @@ class Product {
         nameProduct?: string,
         descriptionProduct?: string,
         creator?: string,
-        ISBN?: string,
+        isbn?: string,
         quantity?: number,
         priceProduct?: number,
         fixedPrice?: number,
@@ -22,7 +22,7 @@ class Product {
             this.nameProduct = nameProduct;
             this.descriptionProduct = descriptionProduct;
             this.creator = creator;
-            this.ISBN = ISBN;
+            this.isbn = isbn;
             this.quantity = quantity;
             this.priceProduct = priceProduct;
             this.fixedPrice = fixedPrice;

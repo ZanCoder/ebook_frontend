@@ -1,4 +1,5 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 
 interface NavBarInterface {
@@ -6,8 +7,22 @@ interface NavBarInterface {
     setSearchNavbar: (keywordSearchNavbar: string) => void;
 }
 
-function Navbar( {keywordSearchNavbar, setSearchNavbar}: NavBarInterface) {
+function Navbar({ keywordSearchNavbar, setSearchNavbar }: NavBarInterface) {
     const [tempKeyword, setTempKeyword] = useState('');
+
+    const navigate = useNavigate();
+    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        setIsLoggedIn(!!token);
+    }, []);
+
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        setIsLoggedIn(false);
+        navigate('/');
+    };
 
     const onSearchNavbarChange = (e: ChangeEvent<HTMLInputElement>) => {
         setTempKeyword(e.target.value);
@@ -21,8 +36,8 @@ function Navbar( {keywordSearchNavbar, setSearchNavbar}: NavBarInterface) {
         if (event.key === 'Enter') {
             setSearchNavbar(tempKeyword);
         }
-      };
-      
+    };
+
     return (
         <nav className="navbar navbar-expand-lg bg-body-tertiary">
             <div className="container-fluid">
@@ -63,7 +78,9 @@ function Navbar( {keywordSearchNavbar, setSearchNavbar}: NavBarInterface) {
                     </ul>
                     <ul className="navbar-nav me-1">
                         <li className="nav-item">
-                            <a className="nav-link" href="#"><i className="fas fa-user"></i></a>
+                            {
+                                isLoggedIn ? (<button className="btn btn-light" onClick={handleLogout}>Logout</button>) : (<button className="btn btn-primary" onClick={() => navigate('/login')}>Login</button>)
+                            }
                         </li>
                     </ul>
                 </div>

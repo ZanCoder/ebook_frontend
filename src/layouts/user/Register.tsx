@@ -1,4 +1,5 @@
-import React, { HtmlHTMLAttributes, useState } from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Register() {
     const [username, setUsername] = useState('');
@@ -7,6 +8,8 @@ function Register() {
     const [rePassword, setRePassword] = useState('');
     const [fullName, setFullName] = useState('');
     const [avatar, setAvatar] = useState<File | null>(null);
+
+    const navigate = useNavigate();
 
     // Show password
     const [showPassword, setShowPassword] = useState<boolean>(false);
