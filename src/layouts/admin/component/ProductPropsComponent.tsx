@@ -1,10 +1,17 @@
+import Brand from "../../../models/Brand";
 import Product from "../../../models/Product";
 
 interface ProductProps {
     product: Product;
+    onDelete: (ProductId: number) => void
 }
 
 const ProductListComponent: React.FC<ProductProps> = (props) => {
+    const { onDelete } = props;
+
+    const handleDelete = () => {
+        onDelete(props.product.id);
+    }
 
     return (
         <tbody>
@@ -18,7 +25,8 @@ const ProductListComponent: React.FC<ProductProps> = (props) => {
                 <td>{props.product.quantity}</td>
                 <td>{props.product.creator}</td>
                 <td>{props.product.average_rating}</td>
-                <td><button className="btn btn-danger">Delete</button></td>
+                <td>...</td>
+                <td><button className="btn btn-danger" onClick={handleDelete}>Delete</button></td>
             </tr>
         </tbody>
     );

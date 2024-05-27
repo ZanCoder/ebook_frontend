@@ -12,6 +12,7 @@ import ActiveUser from './layouts/user/ActiveUser';
 import Login from './layouts/user/Login';
 import LoginSuccess from './layouts/user/LoginSuccess';
 import ProductAdmin from './layouts/admin/ProductTable';
+import BrandAdmin from './layouts/admin/BrandTable';
 
 function App() {
   const [keywordSearchNavbar, setSearchNavbar] = useState('');
@@ -31,6 +32,7 @@ function App() {
           <Route path='/login' element={<Login />} />
           <Route path='/login-success' element={<LoginSuccess />} />
           <Route path='/admin/product' element={<ProductAdmin />} />
+          <Route path='/admin/brand' element={<BrandAdmin />} />
         </Routes>
         <Footer />
       </BrowserRouter>

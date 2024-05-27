@@ -1,3 +1,5 @@
+import Brand from "./Brand";
+
 class Product {
     id: number;
     nameProduct?: string; // syntax ?: có thể null
@@ -8,8 +10,10 @@ class Product {
     priceProduct?: number;
     fixedPrice?: number;
     average_rating?: number;
+    brandList: Brand[];
 
     constructor(id: number,
+        brandList: Brand[],
         nameProduct?: string,
         descriptionProduct?: string,
         creator?: string,
@@ -27,6 +31,7 @@ class Product {
             this.priceProduct = priceProduct;
             this.fixedPrice = fixedPrice;
             this.average_rating = average_rating;
+            this.brandList = brandList;
     }
 }
 

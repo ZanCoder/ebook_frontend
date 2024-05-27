@@ -14,6 +14,7 @@ async function getProduct(url: string): Promise<Product[]> {
     for (const key in responseData) {
         result.push({
             id: responseData[key].id,
+            brandList: responseData[key].brandList,
             nameProduct: responseData[key].nameProduct,
             descriptionProduct: responseData[key].descriptionProduct,
             creator: responseData[key].creator,
@@ -78,6 +79,7 @@ export async function  getProductDetail(id: number): Promise<Product | null> {
         if (productData) {
             return {
                 id: productData.id,
+                brandList: productData.brandList,
                 nameProduct: productData.nameProduct,
                 descriptionProduct: productData.descriptionProduct,
                 creator: productData.creator,

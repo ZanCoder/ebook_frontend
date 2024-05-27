@@ -3,15 +3,18 @@ import RequireAdmin from "./component/RequireAdmin";
 import Product from "../../models/Product";
 import ProductListComponent from "./component/ProductPropsComponent";
 import { getAllProducts } from "../../api/ProductApi";
+import Brand from "../../models/Brand";
+import { getAllBrand } from "../../api/BrandApi";
 
 const ProductForm: React.FC = () => {
     const [product, setProduct] = useState({
         id: 0,
+        brandList: [] as Brand[],
         isbn: '',
         nameProduct: '',
         priceProduct: 0,
         fixedPrice: 0,
-        description: '',
+        descriptionProduct: '',
         quantity: 0,
         creator: '',
         average_rating: 0
@@ -21,7 +24,6 @@ const ProductForm: React.FC = () => {
     const [productList, setProductList] = useState<Product[]>([]);
     const [loadingData, setLoadingData] = useState(true);
     const [errorData, setErrorData] = useState(null);
-
 
     useEffect(() => {
         getAllProducts().then(
@@ -34,7 +36,7 @@ const ProductForm: React.FC = () => {
                 setErrorData(error.message);
             }
         );
-    }, [])
+    }, [productList])
 
     const [notification, setNotification] = useState('');
     const [error, setError] = useState('');
@@ -57,11 +59,12 @@ const ProductForm: React.FC = () => {
                     setNotification('Thêm sách thành công!');
                     setProduct({
                         id: 0,
+                        brandList: [] as Brand[],
                         isbn: '',
                         nameProduct: '',
                         priceProduct: 0,
                         fixedPrice: 0,
-                        description: '',
+                        descriptionProduct: '',
                         quantity: 0,
                         creator: '',
                         average_rating: 0
@@ -89,6 +92,29 @@ const ProductForm: React.FC = () => {
         );
     }
 
+    const deleteProduct = (ProductId: number) => {
+        const token = localStorage.getItem('token');
+        const url = `http://localhost:8080/products/${ProductId}`;
+
+        fetch(url, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+            .then(response => {
+                if (response.ok) {
+                    setProductList(productList.filter((product) => product.id !== ProductId));
+                    setNotification('Xóa sản phẩm thành công!');
+                } else {
+                    setError('Lỗi trong quá trình xóa sản phẩm!');
+                }
+            })
+            .catch(error => {
+                setError('Lỗi kết nối đến server!');
+            });
+    }
+
     return (
         <div className="container">
             <div className="container d-flex align-items-center justify-content-center">
@@ -96,6 +122,9 @@ const ProductForm: React.FC = () => {
                     <h2 className="mt-2">Thêm sách</h2>
                     <form onSubmit={handleSubmit} className="form">
                         <input id="id" type="hidden" value={product.id} />
+
+                        
+
                         <label className="float-start mb-2" htmlFor="isbn">ISBN</label>
                         <input
                             type="text"
@@ -132,8 +161,8 @@ const ProductForm: React.FC = () => {
                         <input
                             type="text"
                             className="form-control"
-                            value={product.description}
-                            onChange={(event) => setProduct({ ...product, description: event.target.value })}
+                            value={product.descriptionProduct}
+                            onChange={(event) => setProduct({ ...product, descriptionProduct: event.target.value })}
                             required
                         />
                         <label className="float-start mb-2" htmlFor="quantity">Số lượng</label>
@@ -173,12 +202,13 @@ const ProductForm: React.FC = () => {
                         <th scope="col">Số lượng</th>
                         <th scope="col">Tác giả</th>
                         <th scope="col">Đánh giá</th>
+                        <th scope="col">Thể loại</th>
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
                 {
                     productList.map((product) => (
-                        <ProductListComponent key={product.id} product={product} />
+                        <ProductListComponent key={product.id} product={product} onDelete={deleteProduct} />
                     ))
                 }
             </table>
